@@ -11,6 +11,7 @@ Patch1:		iptraf-3.0.0-no_splash.diff
 Patch2:		iptraf-2.7.0-interface.patch
 Patch3:		iptraf-3.0.0-setlocale.patch
 Patch4:		iptraf-3.0.0-longdev.patch
+Patch5:		iptraf-3.0.0-include.patch
 Requires:	kernel >= 2.2
 BuildRequires:	ncurses-devel
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -38,6 +39,7 @@ IPTraf works on Ethernet, FDDI, ISDN, PLIP, and SLIP/PPP interfaces.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p0
 
 %build
 
