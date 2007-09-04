@@ -1,17 +1,22 @@
 Summary:	A console-based network monitoring program
 Name:		iptraf
 Version:	3.0.0
-Release:	%mkrel 3
+Release:	%mkrel 4
 Group:		Monitoring
 License:	GPL
 URL:		http://iptraf.seul.org/
-Source:		ftp://iptraf.seul.org/pub/iptraf/%{name}-%{version}.tar.bz2
-Patch0:		iptraf-2.7.0-includefix.patch.bz2
-Patch1:		iptraf-3.0.0-no_splash.diff
-Patch2:		iptraf-2.7.0-interface.patch
-Patch3:		iptraf-3.0.0-setlocale.patch
-Patch4:		iptraf-3.0.0-longdev.patch
-Patch5:		iptraf-3.0.0-include.patch
+Source0:	ftp://iptraf.seul.org/pub/iptraf/%{name}-%{version}.tar.bz2
+Patch0:		iptraf-2.4.0-Makefile.patch
+Patch1:		iptraf-2.7.0-install.patch
+Patch2:		iptraf-2.7.0-doc.patch
+Patch3:		iptraf-2.7.0-interface.patch
+Patch4:		iptraf-2.7.0-nostrip.patch
+Patch5:		iptraf-3.0.0-setlocale.patch
+Patch6:		iptraf-3.0.0-longdev.patch
+Patch7:		iptraf-3.0.0-compile.fix.patch
+Patch8:		iptraf-3.0.0-in_trafic.patch
+Patch9:		iptraf-3.0.0-incltypes.patch
+Patch10:	iptraf-3.0.0-no_splash.diff
 Requires:	kernel >= 2.2
 BuildRequires:	ncurses-devel
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -34,17 +39,24 @@ IPTraf works on Ethernet, FDDI, ISDN, PLIP, and SLIP/PPP interfaces.
 %prep
 
 %setup -q -n %{name}-%{version}
-%patch0 -p1
-%patch1 -p0
+%patch0 -p1 
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p0
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p0
 
 %build
+%serverbuild
 
 %make -C src \
     TARGET=%{_prefix}/sbin \
+    LOCKDIR=/var/lock/iptraf \
     LOGDIR=/var/log/iptraf \
     WORKDIR=%{_localstatedir}/iptraf
 
@@ -54,7 +66,7 @@ rm -rf %{buildroot}
 install -d %{buildroot}%{_sbindir}
 install -d %{buildroot}%{_mandir}/man8
 install -d %{buildroot}/var/log/iptraf
-install -d %{buildroot}/var/run/iptraf
+install -d %{buildroot}/var/lock/iptraf
 install -d %{buildroot}%{_localstatedir}/iptraf
 
 install -m 755 src/{iptraf,rvnamed} %{buildroot}%{_sbindir}/
@@ -81,4 +93,4 @@ rm -rf %{buildroot}
 %{_mandir}/man8/*
 %dir %{_localstatedir}/iptraf
 %dir /var/log/iptraf
-%dir /var/run/iptraf
+%dir /var/lock/iptraf
