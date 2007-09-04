@@ -19,6 +19,7 @@ Patch9:		iptraf-3.0.0-incltypes.patch
 Patch10:	iptraf-3.0.0-no_splash.diff
 Requires:	kernel >= 2.2
 BuildRequires:	ncurses-devel
+BuildRequires:	libncursesw-devel
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 
 %description
