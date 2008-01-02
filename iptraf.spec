@@ -20,6 +20,7 @@ Patch10:	iptraf-3.0.0-no_splash.diff
 Requires:	kernel >= 2.2
 BuildRequires:	ncurses-devel
 BuildRequires:	libncursesw-devel
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 
 %description
 IPTraf is a console-based network monitoring program for Linux that
