@@ -1,7 +1,7 @@
 Summary:	A console-based network monitoring program
 Name:		iptraf
 Version:	3.0.0
-Release:	%mkrel 4
+Release:	%mkrel 5
 Group:		Monitoring
 License:	GPL
 URL:		http://iptraf.seul.org/
@@ -17,7 +17,6 @@ Patch7:		iptraf-3.0.0-compile.fix.patch
 Patch8:		iptraf-3.0.0-in_trafic.patch
 Patch9:		iptraf-3.0.0-incltypes.patch
 Patch10:	iptraf-3.0.0-no_splash.diff
-Requires:	kernel >= 2.2
 BuildRequires:	ncurses-devel
 BuildRequires:	libncursesw-devel
 BuildRoot:	%{_tmppath}/%{name}-buildroot
