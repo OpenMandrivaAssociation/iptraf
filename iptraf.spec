@@ -1,22 +1,34 @@
 Summary:	A console-based network monitoring program
 Name:		iptraf
 Version:	3.0.0
-Release:	%mkrel 5
+Release:	%mkrel 6
 Group:		Monitoring
 License:	GPL
 URL:		http://iptraf.seul.org/
 Source0:	ftp://iptraf.seul.org/pub/iptraf/%{name}-%{version}.tar.bz2
-Patch0:		iptraf-2.4.0-Makefile.patch
-Patch1:		iptraf-2.7.0-install.patch
-Patch2:		iptraf-2.7.0-doc.patch
-Patch3:		iptraf-2.7.0-interface.patch
-Patch4:		iptraf-2.7.0-nostrip.patch
-Patch5:		iptraf-3.0.0-setlocale.patch
-Patch6:		iptraf-3.0.0-longdev.patch
-Patch7:		iptraf-3.0.0-compile.fix.patch
-Patch8:		iptraf-3.0.0-in_trafic.patch
-Patch9:		iptraf-3.0.0-incltypes.patch
-Patch10:	iptraf-3.0.0-no_splash.diff
+#patches 0 to 10 are from pardus for IPv6 support
+Patch0:		iptraf-3.0.0-atheros.patch
+Patch1:		iptraf-3.0.0-build.patch
+Patch2:		iptraf-3.0.0-linux-headers.patch
+Patch3:		iptraf-3.0.0-bnep.patch
+Patch4:		iptraf-3.0.0-Makefile.patch
+Patch5:		iptraf-3.0.0-headerfix.patch
+Patch6:		iptraf-3.0.0-ipv6.patch
+Patch7:		iptraf-3.0.0-ipv6-headerfix.patch
+Patch8:		iptraf-3.0.0-ncursesw.patch
+Patch9:		iptraf-3.0.0-setlocale.patch
+Patch10:	iptraf-3.0.0-ipv6-glibc24.patch
+Patch100:	iptraf-2.4.0-Makefile.patch
+Patch101:	iptraf-2.7.0-install.patch
+Patch102:	iptraf-2.7.0-doc.patch
+Patch103:	iptraf-2.7.0-interface.patch
+Patch104:	iptraf-2.7.0-nostrip.patch
+#Patch105:	iptraf-3.0.0-setlocale.patch
+Patch106:	iptraf-3.0.0-longdev.patch
+Patch107:	iptraf-3.0.0-compile.fix.patch
+Patch108:	iptraf-3.0.0-in_trafic.patch
+Patch109:	iptraf-3.0.0-incltypes.patch
+Patch110:	iptraf-3.0.0-no_splash.diff
 BuildRequires:	ncurses-devel
 BuildRequires:	libncursesw-devel
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -39,17 +51,28 @@ IPTraf works on Ethernet, FDDI, ISDN, PLIP, and SLIP/PPP interfaces.
 %prep
 
 %setup -q -n %{name}-%{version}
-%patch0 -p1 
-%patch1 -p1
-%patch2 -p1
+%patch0 -p1
+%patch1
+%patch2 -p0
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
+%patch4 -p2
+%patch5 -p2
+%patch6 -p0
+%patch7 -p2
 %patch8 -p1
 %patch9 -p1
-%patch10 -p0
+%patch10 -p1
+#%patch100 -p1 
+%patch101 -p1
+%patch102 -p1
+#%patch103 -p1
+%patch104 -p1
+#%patch105 -p1
+%patch106 -p1
+#%patch107 -p1
+%patch108 -p1
+%patch109 -p1
+%patch110 -p0
 
 %build
 %serverbuild
