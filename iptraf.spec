@@ -53,11 +53,11 @@ IPTraf works on Ethernet, FDDI, ISDN, PLIP, and SLIP/PPP interfaces.
 %setup -q -n %{name}-%{version}
 %patch0 -p1
 %patch1
-%patch2 -p0
+%patch2 -p1
 %patch3 -p1
 %patch4 -p2
 %patch5 -p2
-%patch6 -p0
+%patch6 -p2
 %patch7 -p2
 %patch8 -p1
 %patch9 -p1
