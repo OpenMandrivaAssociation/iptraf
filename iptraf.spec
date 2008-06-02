@@ -81,7 +81,7 @@ IPTraf works on Ethernet, FDDI, ISDN, PLIP, and SLIP/PPP interfaces.
     TARGET=%{_prefix}/sbin \
     LOCKDIR=/var/lock/iptraf \
     LOGDIR=/var/log/iptraf \
-    WORKDIR=%{_localstatedir}/iptraf
+    WORKDIR=%{_localstatedir}/lib/iptraf
 
 %install
 rm -rf %{buildroot}
@@ -90,7 +90,7 @@ install -d %{buildroot}%{_sbindir}
 install -d %{buildroot}%{_mandir}/man8
 install -d %{buildroot}/var/log/iptraf
 install -d %{buildroot}/var/lock/iptraf
-install -d %{buildroot}%{_localstatedir}/iptraf
+install -d %{buildroot}%{_localstatedir}/lib/iptraf
 
 install -m 755 src/{iptraf,rvnamed} %{buildroot}%{_sbindir}/
 
@@ -114,6 +114,6 @@ rm -rf %{buildroot}
 %doc Documentation
 %{_sbindir}/*
 %{_mandir}/man8/*
-%dir %{_localstatedir}/iptraf
+%dir %{_localstatedir}/lib/iptraf
 %dir /var/log/iptraf
 %dir /var/lock/iptraf
