@@ -1,7 +1,7 @@
 Summary:	A console-based network monitoring program
 Name:		iptraf
 Version:	3.0.0
-Release:	%mkrel 6
+Release:	%mkrel 8
 Group:		Monitoring
 License:	GPL
 URL:		http://iptraf.seul.org/
