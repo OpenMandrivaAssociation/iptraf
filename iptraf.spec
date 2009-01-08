@@ -1,34 +1,25 @@
 Summary:	A console-based network monitoring program
 Name:		iptraf
-Version:	3.0.0
-Release:	%mkrel 8
+Version:	3.0.1
+Release:	%mkrel 1
 Group:		Monitoring
-License:	GPL
+License:	GPLv2+
 URL:		http://iptraf.seul.org/
-Source0:	ftp://iptraf.seul.org/pub/iptraf/%{name}-%{version}.tar.bz2
-#patches 0 to 10 are from pardus for IPv6 support
-Patch0:		iptraf-3.0.0-atheros.patch
-Patch1:		iptraf-3.0.0-build.patch
-Patch2:		iptraf-3.0.0-linux-headers.patch
-Patch3:		iptraf-3.0.0-bnep.patch
-Patch4:		iptraf-3.0.0-Makefile.patch
-Patch5:		iptraf-3.0.0-headerfix.patch
-Patch6:		iptraf-3.0.0-ipv6.patch
-Patch7:		iptraf-3.0.0-ipv6-headerfix.patch
-Patch8:		iptraf-3.0.0-ncursesw.patch
-Patch9:		iptraf-3.0.0-setlocale.patch
-Patch10:	iptraf-3.0.0-ipv6-glibc24.patch
-Patch100:	iptraf-2.4.0-Makefile.patch
-Patch101:	iptraf-2.7.0-install.patch
-Patch102:	iptraf-2.7.0-doc.patch
-Patch103:	iptraf-2.7.0-interface.patch
-Patch104:	iptraf-2.7.0-nostrip.patch
-#Patch105:	iptraf-3.0.0-setlocale.patch
-Patch106:	iptraf-3.0.0-longdev.patch
-Patch107:	iptraf-3.0.0-compile.fix.patch
-Patch108:	iptraf-3.0.0-in_trafic.patch
-Patch109:	iptraf-3.0.0-incltypes.patch
-Patch110:	iptraf-3.0.0-no_splash.diff
+Source0:	ftp://iptraf.seul.org/pub/iptraf/%{name}-%{version}.tar.gz
+Source1:	iptraf 
+Patch0:		iptraf-2.4.0-Makefile.patch
+Patch1:		iptraf-2.7.0-install.patch
+Patch2:		iptraf-2.7.0-doc.patch
+Patch3:		iptraf-2.7.0-nostrip.patch
+Patch4:		iptraf-3.0.0-setlocale.patch
+Patch5:		iptraf-3.0.0-longdev.patch
+Patch6:		iptraf-3.0.1-compile.fix.patch
+Patch7:		iptraf-3.0.0-in_trafic.patch
+Patch8:		iptraf-3.0.1-incltypes.patch
+Patch9:		iptraf-3.0.0-ifname.patch
+Patch10:	iptraf-3.0.0-interface.patch
+Patch11:	iptraf-3.0.1-ipv6.patch
+Patch12:	iptraf-3.0.1-ipv6-fix.patch
 BuildRequires:	ncurses-devel
 BuildRequires:	libncursesw-devel
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -51,28 +42,21 @@ IPTraf works on Ethernet, FDDI, ISDN, PLIP, and SLIP/PPP interfaces.
 %prep
 
 %setup -q -n %{name}-%{version}
-%patch0 -p1
-%patch1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p2
-%patch5 -p2
-%patch6 -p2
-%patch7 -p2
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-#%patch100 -p1 
-%patch101 -p1
-%patch102 -p1
-#%patch103 -p1
-%patch104 -p1
-#%patch105 -p1
-%patch106 -p1
-#%patch107 -p1
-%patch108 -p1
-%patch109 -p1
-%patch110 -p0
+%patch6 -p1 -b .compile
+%patch11 -p1 -b .ipv6
+%patch12 -p1 -b .ipv6-fix
+%patch0 -p1 -b .Makefile
+%patch1 -p1 -b .install
+%patch2 -p1 -b .doc
+%patch3 -p1 -b .nostrip
+%patch4 -p1 -b .setlocale
+%patch5 -p1 -b .longdev
+%patch7 -p1 -b .in_trafic
+%patch8 -p1 -b .incltypes
+%patch9 -p0 -b .ifname
+%patch10 -p1 -b .interface
+
+
 
 %build
 %serverbuild
@@ -94,8 +78,12 @@ install -d %{buildroot}%{_localstatedir}/lib/iptraf
 
 install -m 755 src/{iptraf,rvnamed} %{buildroot}%{_sbindir}/
 
-mv Documentation/*.8 src/
-install -m 644 src/*.8 %{buildroot}%{_mandir}/man8
+mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d/
+cp %{SOURCE1} %{buildroot}%{_sysconfdir}/logrotate.d/iptraf
+
+install -d %{buildroot}%{_mandir}/man8
+install -m644 Documentation/*.8 %{buildroot}%{_mandir}/man8
+
 
 # clean up
 rm -f Documentation/Makefile
@@ -112,8 +100,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc CHANGES INSTALL README* FAQ
 %doc Documentation
+%dir %attr(644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/iptraf
 %{_sbindir}/*
 %{_mandir}/man8/*
 %dir %{_localstatedir}/lib/iptraf
 %dir /var/log/iptraf
 %dir /var/lock/iptraf
+
