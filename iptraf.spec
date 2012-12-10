@@ -1,7 +1,7 @@
 Summary:	A console-based network monitoring program
 Name:		iptraf
 Version:	3.0.1
-Release:	%mkrel 3
+Release:	%mkrel 4
 Group:		Monitoring
 License:	GPLv2+
 URL:		http://iptraf.seul.org/
@@ -20,9 +20,9 @@ Patch9:		iptraf-3.0.0-ifname.patch
 Patch10:	iptraf-3.0.0-interface.patch
 Patch11:	iptraf-3.0.1-ipv6.patch
 Patch12:	iptraf-3.0.1-ipv6-fix.patch
-BuildRequires:	ncurses-devel
-BuildRequires:	libncursesw-devel
-BuildRoot:	%{_tmppath}/%{name}-buildroot
+Patch13:	iptraf-3.0.0-strcpy-overlap-memory.patch
+BuildRequires:	pkgconfig(ncurses)
+BuildRequires:	pkgconfig(ncursesw)
 
 %description
 IPTraf is a console-based network monitoring program for Linux that
@@ -55,10 +55,17 @@ IPTraf works on Ethernet, FDDI, ISDN, PLIP, and SLIP/PPP interfaces.
 %patch8 -p1 -b .incltypes
 %patch9 -p0 -b .ifname
 %patch10 -p1 -b .interface
+%patch13 -p1
 
 
 
 %build
+find -name "*.c" -o -name "*.h"|while read src; do
+	sed -i "s%<linux/if_ether.h>%<netinet/if_ether.h>%" $src
+	sed -i "s%<linux/if_tr.h>%<netinet/if_tr.h>%" $src
+	sed -i "s%<linux/if_fddi.h>%<netinet/if_fddi.h>%" $src
+done
+
 %serverbuild
 
 %make -C src \
@@ -68,8 +75,6 @@ IPTraf works on Ethernet, FDDI, ISDN, PLIP, and SLIP/PPP interfaces.
     WORKDIR=%{_localstatedir}/lib/iptraf
 
 %install
-rm -rf %{buildroot}
-
 install -d %{buildroot}%{_sbindir}
 install -d %{buildroot}%{_mandir}/man8
 install -d %{buildroot}/var/log/iptraf
@@ -93,11 +98,7 @@ rm -f Documentation/version.awk
 rm -f Documentation/version
 rm -f Documentation/stylesheet-images/.eps
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root)
 %doc CHANGES INSTALL README* FAQ
 %doc Documentation
 %dir %attr(644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/iptraf
@@ -106,4 +107,3 @@ rm -rf %{buildroot}
 %dir %{_localstatedir}/lib/iptraf
 %dir /var/log/iptraf
 %dir /var/lock/iptraf
-
