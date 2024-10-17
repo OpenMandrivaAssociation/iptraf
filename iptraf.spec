@@ -4,7 +4,7 @@ Version:	3.0.1
 Release:	5
 Group:		Monitoring
 License:	GPLv2+
-URL:		http://iptraf.seul.org/
+URL:		https://iptraf.seul.org/
 Source0:	ftp://iptraf.seul.org/pub/iptraf/%{name}-%{version}.tar.gz
 Source1:	iptraf 
 Patch0:		iptraf-2.4.0-Makefile.patch
